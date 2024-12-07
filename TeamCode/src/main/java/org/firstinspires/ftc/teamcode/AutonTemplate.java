@@ -16,6 +16,7 @@ public class AutonTemplate extends LinearOpMode{
     private Servo wrist;
     private DcMotor left_slide;
     private DcMotor right_slide;
+    @Override
     public void runOpMode(){
 
         front_left_motor = hardwareMap.get(DcMotor.class,("front_left_motor"));
