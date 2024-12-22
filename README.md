@@ -1,4 +1,4 @@
-Join the [discord](dsc.gg/stormmasters)!
+Join the [discord](https://dsc.gg/stormmasters)!
 
 
 ## NOTICE
