@@ -1,5 +1,3 @@
-- Currently the roadrunner tuning branch -
-
 Java 17 is recommended!!!
 
 
