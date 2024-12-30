@@ -1,5 +1,9 @@
-Join the [discord](https://dsc.gg/stormmasters)!
+- Currently the roadrunner tuning branch -
 
+Java 17 is recommended!!!
+
+
+Original README:
 
 ## NOTICE
 
