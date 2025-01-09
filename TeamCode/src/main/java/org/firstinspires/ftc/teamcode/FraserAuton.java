@@ -141,10 +141,12 @@ public class FraserAuton extends LinearOpMode{
         S1.setPower(0);
         S2.setPower(0);
         runtime.reset();
-        while (runtime.seconds() < 1);
-        Intake.setPosition(0.9);
-        while (runtime.seconds() < 2);
-        Wrist.setPosition(0.06);
+        while (runtime.seconds() < 1) {
+            Intake.setPosition(0.9);
+        }
+        while (runtime.seconds() < 2) {
+            Wrist.setPosition(0.06);
+        }
         MoveUntil(0.5, 0.2, "forward");
     }
 }
