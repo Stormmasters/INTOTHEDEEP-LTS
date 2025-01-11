@@ -52,6 +52,7 @@ public class TeleOpTemplate extends OpMode {
     @Override
     public void loop() {
 
-       telemetry.addData("Hello World)", HelloWorld); // delete this
+       telemetry.addData("Hello World", HelloWorld); // delete this
+        
     }
 }
