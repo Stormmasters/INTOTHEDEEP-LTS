@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE;
 
+import static java.lang.Math.sqrt;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -9,8 +11,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
-public class TeleOpTemplate extends OpMode {
-    String HelloWorld; //delete this
+public class ControllerResponse extends OpMode {
+    double leftStick;
+    double rightStick;
     double LX, LY, RX, sensitivity = 0.5, wristPosition = 0.5;
     DcMotor BL, FL, FR, BR, S1, S2;
     Servo Intake, Wrist, HangArm;
@@ -46,13 +49,16 @@ public class TeleOpTemplate extends OpMode {
 
         Wrist.setPosition(wristPosition); // Initialize wrist position
 
-        HelloWorld = "HelloWorld"; //delete this
     }
 
     @Override
     public void loop() {
 
-       telemetry.addData("Hello World", HelloWorld); // delete this
+        leftStick = sqrt(gamepad1.left_stick_y) + sqrt(gamepad1.left_stick_x);
+        rightStick = sqrt(gamepad1.right_stick_y) + sqrt(gamepad1.right_stick_x);
 
+        telemetry.addData("Left Stick", leftStick);
+        telemetry.addData("Right Stick", rightStick);
+        telemetry.update();
     }
 }
