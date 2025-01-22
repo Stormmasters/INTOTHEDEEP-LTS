@@ -1,11 +1,3 @@
-Here are the templates:
-
-AutonTemplate
-TeleOpTemlate
-
-
-Original readme.md:
-
 ## TeamCode Module
 
 Welcome!
