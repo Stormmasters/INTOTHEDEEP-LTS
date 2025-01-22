@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
-public class TeleOpTemplate extends OpMode {
+public class ShoulderTest extends OpMode {
     String HelloWorld; //delete this
     double LX, LY, RX, sensitivity = 0.5, wristPosition = 0.5;
     DcMotor BL, FL, FR, BR, S1, S2;
@@ -52,7 +52,13 @@ public class TeleOpTemplate extends OpMode {
     @Override
     public void loop() {
 
-       telemetry.addData("Hello World", HelloWorld); // delete this
+        if (gamepad2.dpad_up) {
+            Arm.setPower(-1);
+        } else if (gamepad2.dpad_down) {
+            Arm.setPower(1);
+        }else {
+            Arm.setPower(0);
+        }
 
     }
 }

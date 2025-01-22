@@ -102,10 +102,9 @@ public class FraserAutonLeft_Ambitious extends LinearOpMode{
         S2.setPower(0.1);
         runtime.reset();
         while (runtime.seconds() < 2.5 && !isStopRequested()){}
-        MoveUntil(0.5, 0.64, "forward");
+        MoveUntil(0.5, 0.2, "forward");
         runtime.reset();
         while (runtime.seconds() < 0.5 && !isStopRequested()){}
-        Arm.setPower(0);
         Intake.setPosition(0.9);
         runtime.reset();
         while (runtime.seconds() < 3 && !isStopRequested()){}
@@ -115,7 +114,7 @@ public class FraserAutonLeft_Ambitious extends LinearOpMode{
         Turn(-0.6, 1.3);
         MoveUntil(-0.3, 0.3, "forward");
         Turn(0.5, 0.35);
-        MoveUntil(0.5, 0.8, "forward");
+        MoveUntil(0.5, 0.3, "forward");
         runtime.reset();
         while (runtime.seconds() < 0.5 && !isStopRequested()){}
         MoveUntil(0.5, 2.3, "left");
