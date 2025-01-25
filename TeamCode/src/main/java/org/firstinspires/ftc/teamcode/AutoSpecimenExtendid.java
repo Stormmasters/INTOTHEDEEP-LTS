@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
 @Autonomous
-public class AutoSpecimen extends LinearOpMode {
+public class AutoSpecimenExtendid extends LinearOpMode {
 
     private DcMotor leftBack;
     private DcMotor rightBack;
