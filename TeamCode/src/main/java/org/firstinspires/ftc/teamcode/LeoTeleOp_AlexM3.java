@@ -73,17 +73,17 @@ public class LeoTeleOp_AlexM3 extends OpMode {
 
         // Arm (shoulder) controls
         if (gamepad2.dpad_up) {
-            Arm.setPower(-0.3);
+            Arm.setPower(-1);
         } else if (gamepad2.dpad_down) {
-            Arm.setPower(0.3);
+            Arm.setPower(1);
         }else {
             Arm.setPower(0);
         }
 
         // Intake controls
-        if (gamepad2.right_bumper && Intake.getPosition()>0.15) {
+        if (gamepad2.left_bumper && Intake.getPosition()>0.15) {
             Intake.setPosition(Intake.getPosition() - 0.005);
-        } else if (gamepad2.left_bumper && Intake.getPosition()<0.8) {
+        } else if (gamepad2.right_bumper && Intake.getPosition()<0.8) {
             Intake.setPosition(Intake.getPosition() + 0.005);
         }
 
