@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.FORWARD;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE;
 
@@ -18,10 +19,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 @Autonomous
-public class FraserAuton extends LinearOpMode{
+public class FraserAutonLeft_Ambitious extends LinearOpMode{
     double LX, LY, RX, sensitivity = 0.5, a, b;
     DcMotor BL, FL, FR, BR, S1, S2, M1, M2;
-    Servo Intake, Arm, Wrist;
+    Servo Intake, Wrist;
+    CRServo Arm;
     private ElapsedTime runtime = new ElapsedTime();
     public void MoveUntil(double speed, double time, String direction){
         runtime.reset();
@@ -83,70 +85,42 @@ public class FraserAuton extends LinearOpMode{
         S2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         // This matches the DcMotors to the ones configured in the Control Hub
         FL.setDirection(REVERSE);
-        S2.setDirection(REVERSE);
+        S1.setDirection(REVERSE);
         Intake = hardwareMap.get(Servo.class, "claw");
-        Arm = hardwareMap.get(Servo.class, "shoulder");
+        Arm = hardwareMap.get(CRServo.class, "shoulder");
         Wrist = hardwareMap.get(Servo.class, "wrist");
         waitForStart();
         runtime.reset();
-        S1.setPower(1);
-        Wrist.setPosition(0.06);
-        S2.setPower(1);
-        Arm.setPosition(0.1);
+        S1.setPower(0.85);
+        S2.setPower(0.85);
+        Wrist.setPosition(0.6);
+        Arm.setPower(-0.4);
         MoveUntil(0.5, 0.5, "right");
         Turn(-0.5, 0.35);
-        MoveUntil(0.5, 1.1, "right");
-        S1.setPower(0);
-        S2.setPower(0);
+        MoveUntil(0.5, 1.4, "right");
+        S1.setPower(0.1);
+        S2.setPower(0.1);
         runtime.reset();
-        while (runtime.seconds() < 1 && !isStopRequested()){}
-        MoveUntil(0.5, 0.48, "forward");
-        Arm.setPosition(0.5);
+        while (runtime.seconds() < 2.5 && !isStopRequested()){}
+        MoveUntil(0.5, 0.2, "forward");
         runtime.reset();
-        while (runtime.seconds() < 0.5 && !isStopRequested());
+        while (runtime.seconds() < 0.5 && !isStopRequested()){}
         Intake.setPosition(0.9);
         runtime.reset();
-        while (runtime.seconds() < 0.5 && !isStopRequested());
-        Turn(0.5, 1.31);
-        S1.setPower(-0.6);
-        S2.setPower(-0.6);
-        MoveUntil(0.5, 0.22, "left");
-        runtime.reset();
-        runtime.reset();
-        while (runtime.seconds() < 2);
-        S1.setPower(0.14);
-        S2.setPower(0.14);
-        Wrist.setPosition(0.1);
-        runtime.reset();
-        while (runtime.seconds() < 1);
-        Wrist.setPosition(0.15);
-        MoveUntil(0.5, 0.36, "forward");
-        runtime.reset();
-        while (runtime.seconds() < 1);
-        Intake.setPosition(0);
-        runtime.reset();
-        while (runtime.seconds() < 2);
-        Wrist.setPosition(0.06);
-        S1.setPower(1);
-        S2.setPower(1);
-        runtime.reset();
-        while (runtime.seconds() < 1);
-        Wrist.setPosition(0.06);
-        S1.setPower(1);
-        S2.setPower(1);
-        Arm.setPosition(0.1);
-        Turn(-0.5, 1.7);
-        MoveUntil(0.5, 0.38, "forward");
-        Arm.setPosition(0.5);
+        while (runtime.seconds() < 3 && !isStopRequested()){}
         S1.setPower(0);
         S2.setPower(0);
         runtime.reset();
-        while (runtime.seconds() < 1) {
-            Intake.setPosition(0.9);
-        }
-        while (runtime.seconds() < 2) {
-            Wrist.setPosition(0.06);
-        }
-        MoveUntil(0.5, 0.2, "forward");
+        Turn(-0.6, 1.3);
+        MoveUntil(-0.3, 0.3, "forward");
+        Turn(0.5, 0.35);
+        MoveUntil(0.5, 0.3, "forward");
+        runtime.reset();
+        while (runtime.seconds() < 0.5 && !isStopRequested()){}
+        MoveUntil(0.5, 2.3, "left");
+        Arm.setPower(0.4);
+        MoveUntil(0.5, 0.3, "forward");
+        runtime.reset();
+        while (runtime.seconds() < 2 && !isStopRequested()){}
     }
 }
