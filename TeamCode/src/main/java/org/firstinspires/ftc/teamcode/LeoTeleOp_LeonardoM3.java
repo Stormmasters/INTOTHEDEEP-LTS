@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
 public class LeoTeleOp_LeonardoM3 extends OpMode {
-    double LX, LY, RX, sensitivity = 0.5, wristPosition = 0.5;
+    double LX, LY, RX, sensitivity = 0.5, wristPosition = 0;
     DcMotor BL, FL, FR, BR, S1, S2;
     Servo Intake, HangArm;
     CRServo Arm, Wrist;
