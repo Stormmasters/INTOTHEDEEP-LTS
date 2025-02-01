@@ -87,10 +87,12 @@ public class LeoTeleOp_LeonardoM3_test extends OpMode {
 
         // Wrist controls
         if (gamepad2.dpad_left) {
-            Wrist.setPower(0.5);
+            wristPosition += 0.1;
+            Wrist.setPower(wristPosition);
         }
         if (gamepad2.dpad_right){
-            Wrist.setPower(-0.5);
+            wristPosition -= 0.1;
+            Wrist.setPower(wristPosition);
         }
         if (!gamepad2.dpad_left && !gamepad2.dpad_right){
             return;
