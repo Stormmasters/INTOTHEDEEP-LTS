@@ -80,9 +80,9 @@ public class LeoTeleOp_LeonardoM3 extends OpMode {
 
         // Intake controls
         if (gamepad2.left_bumper && Intake.getPosition()>0.15) {
-            Intake.setPosition(Intake.getPosition() - 0.005);
+            Intake.setPosition(Intake.getPosition() - 0.05);
         } else if (gamepad2.right_bumper && Intake.getPosition()<0.8) {
-            Intake.setPosition(Intake.getPosition() + 0.005);
+            Intake.setPosition(Intake.getPosition() + 0.05);
         }
 
         // Wrist controls
