@@ -6,6 +6,10 @@ i really dont know. well good job this season y'all. this repo wont be archived 
 
 # gg
 
+: )
+
+# ORIGINAL README:
+
 Fork of [https://github.com/FIRST-Tech-Challenge/FtcRobotController](https://github.com/FIRST-Tech-Challenge/FtcRobotController).
 
 # Java 17 is recommended!!!
