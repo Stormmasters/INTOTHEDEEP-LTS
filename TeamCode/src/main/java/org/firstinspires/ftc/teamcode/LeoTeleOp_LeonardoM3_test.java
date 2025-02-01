@@ -93,7 +93,7 @@ public class LeoTeleOp_LeonardoM3_test extends OpMode {
             Wrist.setPower(-0.5);
         }
         if (!gamepad2.dpad_left && !gamepad2.dpad_right){
-            
+            return;
         }
 
         // Hang arm controls
