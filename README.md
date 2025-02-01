@@ -1,18 +1,4 @@
-## gg y'all
-
-# uhh now the future of this repo
-
-i really dont know. well good job this season y'all. this repo wont be archived just incase something comes up or idk. well yea so...
-
-# gg
-
-: )
-
-# gg again
-
-: (
-
-# ORIGINAL README:
+# OH MY GOD WE'RE MOVING UP!!!
 
 Fork of [https://github.com/FIRST-Tech-Challenge/FtcRobotController](https://github.com/FIRST-Tech-Challenge/FtcRobotController).
 
