@@ -87,11 +87,11 @@ public class LeoTeleOp_LeonardoM3 extends OpMode {
 
         // Wrist controls
         while (gamepad2.dpad_left) {
-            wristPosition += 0.01;
+            wristPosition += 0.005;
             break;
         }
         while (gamepad2.dpad_right){
-            wristPosition -= 0.01;
+            wristPosition -= 0.005;
             break;
         }
         Wrist.setPower(wristPosition);
