@@ -1,17 +1,3 @@
-# If you are able to please sign this: 
-
-[https://www.change.org/p/an-urgent-call-to-first-for-fair-advancement-opportunities-to-the-first-world-championship](https://www.change.org/p/an-urgent-call-to-first-for-fair-advancement-opportunities-to-the-first-world-championship?recruiter=1082080069&recruited_by_id=5fb4ba10-88b1-11ea-8c4f-e3fa63495620&utm_source=share_petition&utm_campaign=share_petition&utm_term=petition_dashboard&utm_medium=copylink&utm_content=cl_sharecopy_490419347_en-US%3A8)
-
-Fork of [https://github.com/FIRST-Tech-Challenge/FtcRobotController](https://github.com/FIRST-Tech-Challenge/FtcRobotController).
-
-# Java 17 is recommended!!!
-
-Download it [here](https://adoptium.net/temurin/releases/?version=17&package=jdk)
-
-
-
-
-
 ## NOTICE
 
 This repository contains the public FTC SDK for the INTO THE DEEP (2024-2025) competition season.
