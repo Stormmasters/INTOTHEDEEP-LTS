@@ -1,15 +1,3 @@
-# WE'RE MOVING UP!!!
-
-Fork of [https://github.com/FIRST-Tech-Challenge/FtcRobotController](https://github.com/FIRST-Tech-Challenge/FtcRobotController).
-
-# Java 17 is recommended!!!
-
-Download it [here](https://adoptium.net/temurin/releases/?version=17&package=jdk)
-
-
-
-
-
 ## NOTICE
 
 This repository contains the public FTC SDK for the INTO THE DEEP (2024-2025) competition season.
