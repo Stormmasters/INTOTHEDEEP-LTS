@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.ftc.Actions;
 
@@ -15,8 +14,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous
 public class Auton_Actions {
+
     public DcMotorEx slide1, slide2;
     public Servo claw;
+    private long startTime;
+    private static final long SPIN_UP_TIME = 2000; // Wait time in milliseconds (2 seconds)
 
     public Auton_Actions(HardwareMap hardwareMap) {
         slide1 = hardwareMap.get(DcMotorEx.class, "par0");
@@ -32,9 +34,16 @@ public class Auton_Actions {
             if (!initialized) {
                 slide1.setPower(0.8);
                 slide2.setPower(0.8);
+                startTime = System.currentTimeMillis();  // Capture the start time
                 initialized = true;
             }
-            return true;  // Return true to indicate the action has completed
+
+            // Check if the motor has been running for at least SPIN_UP_TIME
+            if (System.currentTimeMillis() - startTime >= SPIN_UP_TIME) {
+                return true;  // Action completes after the wait
+            }
+
+            return false;  // Keep running the action
         }
     }
 
@@ -68,13 +77,11 @@ public class Auton_Actions {
 
     // Run all actions in sequence
     public void runAllActions() {
-        Actions.runBlocking( new SequentialAction(
-                        spinUp(),  // Spin up motor
-                        new SleepAction(500), // Wait for motors to reach speed
-                        grab(),    // Grab the object
-                        new SleepAction(100),
-                        unGrab()   // Release the object
-                )
-        );
+        Actions.runBlocking(new SequentialAction(
+                spinUp(),  // Spin up motor
+                grab(),    // Grab the object
+                new SleepAction(100),  // Small delay after grabbing
+                unGrab()   // Release the object
+        ));
     }
 }
