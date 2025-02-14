@@ -6,39 +6,32 @@ import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.ftc.Actions;
-
+import com.acmerobotics.roadrunner.SleepAction;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous
 public class Auton_Actions extends LinearOpMode {
 
-    public DcMotorEx slide1, slide2;
-    public Servo claw;
+    private DcMotorEx slide1, slide2;
+    private Servo claw;
+    private long startTime;
+    private static final long SPIN_UP_TIME = 2000; // 2 seconds
 
-    public Auton_Actions(HardwareMap hardwareMap) {
+    @Override
+    public void runOpMode() {
+        // Initialize hardware
         slide1 = hardwareMap.get(DcMotorEx.class, "par0");
         slide2 = hardwareMap.get(DcMotorEx.class, "par1");
         claw = hardwareMap.get(Servo.class, "claw");
-    }
 
-    /**
-     * Override this method and place your code here.
-     * <p>
-     * Please do not catch {@link InterruptedException}s that are thrown in your OpMode
-     * unless you are doing it to perform some brief cleanup, in which case you must exit
-     * immediately afterward. Once the OpMode has been told to stop, your ability to
-     * control hardware will be limited.
-     *
-     * @throws InterruptedException When the OpMode is stopped while calling a method
-     *                              that can throw {@link InterruptedException}
-     */
-    @Override
-    public void runOpMode() throws InterruptedException {
+        waitForStart();
 
+        if (opModeIsActive()) {
+            runAllActions(); // Execute all actions
+        }
     }
 
     public class SpinUp implements Action {
@@ -48,9 +41,13 @@ public class Auton_Actions extends LinearOpMode {
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             if (!initialized) {
                 slide1.setPower(0.8);
+                slide2.setPower(0.8);
+                startTime = System.currentTimeMillis();  // Start timer
                 initialized = true;
             }
-            return false;
+
+            // Check if spin-up time has elapsed
+            return (System.currentTimeMillis() - startTime >= SPIN_UP_TIME);
         }
     }
 
@@ -63,7 +60,7 @@ public class Auton_Actions extends LinearOpMode {
                 claw.setPosition(0.0);
                 initialized = true;
             }
-            return false;
+            return true;  // Action completes immediately
         }
     }
 
@@ -76,7 +73,7 @@ public class Auton_Actions extends LinearOpMode {
                 claw.setPosition(0.5);
                 initialized = true;
             }
-            return false;
+            return true;  // Action completes immediately
         }
     }
 
@@ -92,14 +89,13 @@ public class Auton_Actions extends LinearOpMode {
         return new UnGrab();
     }
 
-    // New Method to Run All Actions
+    // Run all actions sequentially
     public void runAllActions() {
-        Actions.runBlocking( new SequentialAction(
-                        spinUp(),  // Spin up motor
-                        grab(),    // Grab the object
-
-                        unGrab()   // Release the object
-                )
-        );
+        Actions.runBlocking(new SequentialAction(
+                spinUp(),  // Spin up motors
+                grab(),    // Grab object
+                new SleepAction(100), // Delay
+                unGrab()   // Release object
+        ));
     }
 }
