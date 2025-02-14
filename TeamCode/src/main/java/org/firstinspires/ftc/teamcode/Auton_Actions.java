@@ -12,8 +12,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+
 @Autonomous
 public class Auton_Actions extends LinearOpMode {
+
     public DcMotorEx slide1, slide2;
     public Servo claw;
 
