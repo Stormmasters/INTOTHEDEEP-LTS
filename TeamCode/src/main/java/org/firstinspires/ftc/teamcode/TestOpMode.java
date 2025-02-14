@@ -2,7 +2,10 @@ package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import java.lang;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.acmerobotics.roadrunner.trajectory.TrajectorySequence;
 
 
 // Separate Test Class
@@ -19,8 +22,19 @@ public class TestOpMode extends LinearOpMode {
         Actions.runBlocking(slides.spinUp());
 
         Actions.runBlocking(claw.grab);
-        Thread.sleep(500);
+        sleep(500);
         Actions.runBlocking(claw.unGrab);
+
+        Pose2d startPose = new Pose2d(0, 0, 0);
+        drive.setPoseEstimate(startPose);
+
+        TrajectorySequence trajSeq = drive.trajectorySequenceBuilder(startPose)
+            .forward(20)
+            .turn(Math.toRadians(90))
+            .back(10)
+            .build();
+
+        drive.followTrajectorySequence(trajSeq);
     }
 }
 =======
