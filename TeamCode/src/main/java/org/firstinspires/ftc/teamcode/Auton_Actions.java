@@ -1,11 +1,17 @@
 package org.firstinspires.ftc.teamcode;
-import com.qualcomm.robotcore.hardware.Servo;
+
 import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.ParallelAction;
+import com.acmerobotics.roadrunner.ftc.Actions;
+
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
+import com.qualcomm.robotcore.hardware.Servo;
+@Autonomous
 public class Auton_Actions {
     public DcMotorEx slide1, slide2;
     public Servo claw;
@@ -35,6 +41,7 @@ public class Auton_Actions {
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             if (!initialized) {
+                claw.setPosition(0.0);
                 initialized = true;
             }
             return false;
@@ -47,6 +54,7 @@ public class Auton_Actions {
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             if (!initialized) {
+                claw.setPosition(0.5);
                 initialized = true;
             }
             return false;
@@ -63,5 +71,16 @@ public class Auton_Actions {
 
     public Action unGrab() {
         return new UnGrab();
+    }
+
+    // New Method to Run All Actions
+    public void runAllActions() {
+        Actions.runBlocking( new SequentialAction(
+                        spinUp(),  // Spin up motor
+                        grab(),    // Grab the object
+
+                        unGrab()   // Release the object
+                )
+        );
     }
 }
