@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous
-public class Auto2Samp extends LinearOpMode {
+public class Auton2samp extends LinearOpMode {
 
     private DcMotor leftBack;
     private DcMotor rightBack;
