@@ -1,48 +1,43 @@
-apply plugin: 'com.android.application' // Or 'com.android.library' if it's a library module
+//
+// build.gradle in TeamCode
+//
+// Most of the definitions for building your module reside in a common, shared
+// file 'build.common.gradle'. Being factored in this way makes it easier to
+// integrate updates to the FTC into your code. If you really need to customize
+// the build definitions, you can place those customizations in this file, but
+// please think carefully as to whether such customizations are really necessary
+// before doing so.
+
+
+// Custom definitions may go here
+
+// Include common definitions from above.
+apply from: '../build.common.gradle'
+apply from: '../build.dependencies.gradle'
 
 android {
-    namespace = 'org.firstinspires.ftc.teamcode' // Your package name - VERY IMPORTANT
-    compileSdkVersion 33 // Or your compile SDK version - CHECK FOR UPDATES
-    buildToolsVersion "30.0.3" // Or your build tools version - CHECK FOR UPDATES
-
-    defaultConfig {
-        applicationId "org.firstinspires.ftc.teamcode" // Your package name - VERY IMPORTANT
-        minSdkVersion 24 // Or your minimum SDK version - CHECK FOR UPDATES
-        targetSdkVersion 33 // Or your target SDK version - CHECK FOR UPDATES
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles 'consumer-rules.pro'
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
+    namespace = 'org.firstinspires.ftc.teamcode'
 
     packagingOptions {
         jniLibs.useLegacyPackaging true
     }
+}
 
-    // ***ADD THE REPOSITORIES BLOCK HERE***
-    repositories {
-        mavenCentral()
-        maven { url 'https://maven.brott.dev/' } // Road Runner repo - VERY IMPORTANT
+repositories {
+    maven {
+        url = 'https://maven.brott.dev/'
     }
-} // Close the android block here
+}
 
-// ***THE DEPENDENCIES BLOCK SHOULD BE OUTSIDE THE ANDROID BLOCK***
 dependencies {
     implementation project(':FtcRobotController')
 
-    // ***CHECK ROAD RUNNER VERSIONS HERE***
-    implementation "com.acmerobotics.roadrunner:ftc:0.1.15" // CHECK FOR LATEST VERSION!!!
-    implementation "com.acmerobotics.roadrunner:core:1.0.1" // CHECK FOR LATEST VERSION!!!
-    implementation "com.acmerobotics.roadrunner:actions:1.0.1" // CHECK FOR LATEST VERSION!!!
-    implementation "com.acmerobotics.dashboard:dashboard:0.4.16" // CHECK FOR LATEST VERSION!!!
+    implementation project(':FtcRobotController')
+    implementation "com.acmerobotics.roadrunner:ftc:0.1.15" // Check for latest version
+    implementation "com.acmerobotics.roadrunner:core:1.0.1" // Check for latest version
+    implementation "com.acmerobotics.roadrunner:actions:1.0.1" // Check for latest version
+    implementation "com.acmerobotics.dashboard:dashboard:0.4.16" // Check for latest version
 
-    // ... other dependencies if needed
+
+
 }
