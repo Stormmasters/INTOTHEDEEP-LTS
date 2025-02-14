@@ -7,6 +7,7 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.acmerobotics.roadrunner.trajectory.TrajectorySequence;
 
+
 // Separate Test Class
 public class TestOpMode extends LinearOpMode {
     @Override
@@ -14,10 +15,12 @@ public class TestOpMode extends LinearOpMode {
         Auton_Actions slides = new Auton_Actions(hardwareMap);
         Auton_Actions claw = new Auton_Actions(hardwareMap);
 
+
         waitForStart();
 
         // Run the spinUp action
         Actions.runBlocking(slides.spinUp());
+
         Actions.runBlocking(claw.grab);
         sleep(500);
         Actions.runBlocking(claw.unGrab);
@@ -32,5 +35,8 @@ public class TestOpMode extends LinearOpMode {
             .build();
 
         drive.followTrajectorySequence(trajSeq);
+    }
+}
+=======
     }
 }
