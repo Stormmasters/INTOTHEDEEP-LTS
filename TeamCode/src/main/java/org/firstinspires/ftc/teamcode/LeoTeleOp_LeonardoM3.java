@@ -8,12 +8,11 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-
-
 @TeleOp
 public class LeoTeleOp_LeonardoM3 extends OpMode {
     double LX, LY, RX, sensitivity = 0.5, wristPosition = 0;
     boolean previousDpadUp = false, previousDpadDown = false;
+    boolean armMovingUp = false, armMovingDown = false;  // Track arm movement state
 
     DcMotor BL, FL, FR, BR, S1, S2;
     Servo Intake, HangArm;
@@ -72,13 +71,22 @@ public class LeoTeleOp_LeonardoM3 extends OpMode {
         S1.setPower((gamepad2.left_trigger - gamepad2.right_trigger) * -0.8);
         S2.setPower((gamepad2.left_trigger - gamepad2.right_trigger) * 0.8);
 
-        // Arm (shoulder) controls - Instant response without holding
+        // **Arm (shoulder) controls - Instant toggle**
         if (gamepad2.dpad_up && !previousDpadUp) {
-            Arm.setPower(-1);
-        } else if (gamepad2.dpad_down && !previousDpadDown) {
-            Arm.setPower(1);
+            armMovingUp = !armMovingUp;  // Toggle movement state
+            armMovingDown = false; // Prevent both movements at once
+        }
+        if (gamepad2.dpad_down && !previousDpadDown) {
+            armMovingDown = !armMovingDown; // Toggle movement state
+            armMovingUp = false; // Prevent both movements at once
+        }
+
+        if (armMovingUp) {
+            Arm.setPower(-1);  // Move up
+        } else if (armMovingDown) {
+            Arm.setPower(1);   // Move down
         } else {
-            Arm.setPower(0);
+            Arm.setPower(0);   // Stop
         }
 
         // Update previous button states
@@ -114,6 +122,8 @@ public class LeoTeleOp_LeonardoM3 extends OpMode {
         telemetry.addData("Wrist Position", wristPosition);
         telemetry.addData("Intake Position", Intake.getPosition());
         telemetry.addData("Slides Position", S1.getCurrentPosition());
+        telemetry.addData("Arm Moving Up", armMovingUp);
+        telemetry.addData("Arm Moving Down", armMovingDown);
         telemetry.update();
     }
 }
