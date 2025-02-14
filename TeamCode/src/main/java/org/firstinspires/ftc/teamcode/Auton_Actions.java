@@ -74,9 +74,4 @@ public class Auton_Actions {
     }
 }
 
-    public Action spinUp() {
-        return new SpinUp();
-    }
-}
-
 
