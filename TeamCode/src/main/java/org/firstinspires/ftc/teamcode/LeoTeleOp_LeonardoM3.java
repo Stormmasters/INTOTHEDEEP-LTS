@@ -11,7 +11,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 @TeleOp
 public class LeoTeleOp_LeonardoM3 extends OpMode {
     double LX, LY, RX, sensitivity = 0.5, wristPosition = 0;
-
     DcMotor BL, FL, FR, BR, S1, S2;
     Servo Intake, HangArm, Arm;  // ✅ Changed Arm to a standard Servo
     CRServo Wrist;
@@ -51,6 +50,7 @@ public class LeoTeleOp_LeonardoM3 extends OpMode {
 
     @Override
     public void loop() {
+
         // Drive controls
         LX = -gamepad1.left_stick_x * sensitivity;
         LY = -gamepad1.left_stick_y * sensitivity;
@@ -88,11 +88,13 @@ public class LeoTeleOp_LeonardoM3 extends OpMode {
         }
 
         // Wrist controls
-        if (gamepad2.dpad_left) {
+        while (gamepad2.dpad_left) {
             wristPosition += 0.005;
+            break;
         }
-        if (gamepad2.dpad_right) {
+        while (gamepad2.dpad_right){
             wristPosition -= 0.005;
+            break;
         }
         Wrist.setPower(wristPosition);
 
