@@ -144,12 +144,17 @@ public class Auton_Actions extends LinearOpMode {
 
     public Action strafeToLineHeading() {
         return new Action() {
+            private boolean initialized = false;
+
             @Override
             public boolean run(@NotNull TelemetryPacket telemetryPacket) {
-                Pose2d initialPose = null;
-                TrajectoryActionBuilder tab3 = drive.actionBuilder(initialPose).strafeTo(new Vector2d(46, 30));
-
-                return false;
+                if (!initialized) {
+                    TrajectoryActionBuilder tab3 = drive.actionBuilder(drive.pose)
+                            .strafeTo(new Vector2d(46, 30));
+                    Actions.runBlocking(tab3.build());
+                    initialized = true;
+                }
+                return false; // Ends after one execution
             }
         };
     }
