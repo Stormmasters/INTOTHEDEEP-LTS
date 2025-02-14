@@ -5,16 +5,17 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.ParallelAction;
-import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.ftc.Actions;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous
-public class Auton_Actions {
+public class Auton_Actions extends LinearOpMode {
+
     public DcMotorEx slide1, slide2;
     public Servo claw;
 
@@ -24,6 +25,22 @@ public class Auton_Actions {
         claw = hardwareMap.get(Servo.class, "claw");
     }
 
+    /**
+     * Override this method and place your code here.
+     * <p>
+     * Please do not catch {@link InterruptedException}s that are thrown in your OpMode
+     * unless you are doing it to perform some brief cleanup, in which case you must exit
+     * immediately afterward. Once the OpMode has been told to stop, your ability to
+     * control hardware will be limited.
+     *
+     * @throws InterruptedException When the OpMode is stopped while calling a method
+     *                              that can throw {@link InterruptedException}
+     */
+    @Override
+    public void runOpMode() throws InterruptedException {
+
+    }
+
     public class SpinUp implements Action {
         private boolean initialized = false;
 
@@ -31,26 +48,35 @@ public class Auton_Actions {
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             if (!initialized) {
                 slide1.setPower(0.8);
-                slide2.setPower(0.8);
                 initialized = true;
             }
-            return true;  // Return true to indicate the action has completed
+            return false;
         }
     }
 
     public class Grab implements Action {
+        private boolean initialized = false;
+
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-            claw.setPosition(1.0); // Change to fully grab the object
-            return true;  // Action completes instantly
+            if (!initialized) {
+                claw.setPosition(0.0);
+                initialized = true;
+            }
+            return false;
         }
     }
 
     public class UnGrab implements Action {
+        private boolean initialized = false;
+
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-            claw.setPosition(0.5); // Change to fully release the object
-            return true;  // Action completes instantly
+            if (!initialized) {
+                claw.setPosition(0.5);
+                initialized = true;
+            }
+            return false;
         }
     }
 
@@ -66,13 +92,12 @@ public class Auton_Actions {
         return new UnGrab();
     }
 
-    // Run all actions in sequence
+    // New Method to Run All Actions
     public void runAllActions() {
         Actions.runBlocking( new SequentialAction(
                         spinUp(),  // Spin up motor
-                        new SleepAction(500), // Wait for motors to reach speed
                         grab(),    // Grab the object
-                        new SleepAction(100),
+
                         unGrab()   // Release the object
                 )
         );
