@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.acmerobotics.roadrunner.Trajectory;
+import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import org.jetbrains.annotations.NotNull;
 
@@ -144,8 +145,8 @@ public class Auton_Actions extends LinearOpMode {
         return new Action() {
             @Override
             public boolean run(@NotNull TelemetryPacket telemetryPacket) {
-                drive.followTrajectory(trajectory);
-                return!drive.isBusy(); // Important: Action completes when trajectory is done
+                TrajectoryActionBuilder tab3 = drive.actionBuilder(initialPose).strafeTo(new Vector2d(46, 30));
+
             }
         };
     }
