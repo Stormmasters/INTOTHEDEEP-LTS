@@ -8,9 +8,13 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
+
+
 @TeleOp
 public class LeoTeleOp_LeonardoM3 extends OpMode {
     double LX, LY, RX, sensitivity = 0.5, wristPosition = 0;
+    boolean previousDpadUp = false, previousDpadDown = false;
+
     DcMotor BL, FL, FR, BR, S1, S2;
     Servo Intake, HangArm;
     CRServo Arm, Wrist;
@@ -46,7 +50,6 @@ public class LeoTeleOp_LeonardoM3 extends OpMode {
 
     @Override
     public void loop() {
-
         // Drive controls
         LX = -gamepad1.left_stick_x * sensitivity;
         LY = -gamepad1.left_stick_y * sensitivity;
@@ -69,14 +72,18 @@ public class LeoTeleOp_LeonardoM3 extends OpMode {
         S1.setPower((gamepad2.left_trigger - gamepad2.right_trigger) * -0.8);
         S2.setPower((gamepad2.left_trigger - gamepad2.right_trigger) * 0.8);
 
-        // Arm (shoulder) controls
-        if (gamepad2.dpad_up) {
+        // Arm (shoulder) controls - Instant response without holding
+        if (gamepad2.dpad_up && !previousDpadUp) {
             Arm.setPower(-1);
-        } else if (gamepad2.dpad_down) {
+        } else if (gamepad2.dpad_down && !previousDpadDown) {
             Arm.setPower(1);
-        }else {
+        } else {
             Arm.setPower(0);
         }
+
+        // Update previous button states
+        previousDpadUp = gamepad2.dpad_up;
+        previousDpadDown = gamepad2.dpad_down;
 
         // Intake controls
         if (gamepad2.left_bumper) {
@@ -86,13 +93,11 @@ public class LeoTeleOp_LeonardoM3 extends OpMode {
         }
 
         // Wrist controls
-        while (gamepad2.dpad_left) {
+        if (gamepad2.dpad_left) {
             wristPosition += 0.005;
-            break;
         }
-        while (gamepad2.dpad_right){
+        if (gamepad2.dpad_right) {
             wristPosition -= 0.005;
-            break;
         }
         Wrist.setPower(wristPosition);
 
