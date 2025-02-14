@@ -8,11 +8,12 @@ import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.ftc.Actions;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 @Autonomous
-public class Auton_Actions {
+public class Auton_Actions extends LinearOpMode {
     public DcMotorEx slide1, slide2;
     public Servo claw;
 
@@ -20,6 +21,22 @@ public class Auton_Actions {
         slide1 = hardwareMap.get(DcMotorEx.class, "par0");
         slide2 = hardwareMap.get(DcMotorEx.class, "par1");
         claw = hardwareMap.get(Servo.class, "claw");
+    }
+
+    /**
+     * Override this method and place your code here.
+     * <p>
+     * Please do not catch {@link InterruptedException}s that are thrown in your OpMode
+     * unless you are doing it to perform some brief cleanup, in which case you must exit
+     * immediately afterward. Once the OpMode has been told to stop, your ability to
+     * control hardware will be limited.
+     *
+     * @throws InterruptedException When the OpMode is stopped while calling a method
+     *                              that can throw {@link InterruptedException}
+     */
+    @Override
+    public void runOpMode() throws InterruptedException {
+
     }
 
     public class SpinUp implements Action {
