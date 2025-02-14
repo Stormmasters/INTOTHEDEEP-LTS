@@ -43,7 +43,7 @@ public class LeoTeleOp_LeonardoM3 extends OpMode {
         FL.setDirection(REVERSE);
 
         Intake = hardwareMap.get(Servo.class, "claw");
-        Arm = hardwareMap.get(Servo.class, "shoulder");  // ✅ Standard Servo
+        Arm = (Servo) hardwareMap.get(CRServo.class, "shoulder");  // ✅ Standard Servo
         Wrist = hardwareMap.get(CRServo.class, "wrist");
         HangArm = hardwareMap.get(Servo.class, "hangArm");
     }
@@ -92,7 +92,7 @@ public class LeoTeleOp_LeonardoM3 extends OpMode {
             wristPosition += 0.005;
             break;
         }
-        while (gamepad2.dpad_right){
+        while (gamepad2.dpad_right) {
             wristPosition -= 0.005;
             break;
         }
