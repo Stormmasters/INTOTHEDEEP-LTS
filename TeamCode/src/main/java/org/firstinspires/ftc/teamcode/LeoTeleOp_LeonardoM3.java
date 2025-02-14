@@ -70,8 +70,8 @@ public class LeoTeleOp_LeonardoM3 extends OpMode {
         telemetry.addLine("Sensitivity: " + String.format("%.2f", sensitivity));
 
         // Slide controls
-        S1.setPower((gamepad2.left_trigger - gamepad2.right_trigger) * -0.8);
-        S2.setPower((gamepad2.left_trigger - gamepad2.right_trigger) * 0.8);
+        S1.setPower((gamepad2.left_trigger - gamepad2.right_trigger) * -1);
+        S2.setPower((gamepad2.left_trigger - gamepad2.right_trigger) * 1);
 
         // ✅ Arm (Shoulder) Controls - Now Uses Positions
         if (gamepad2.dpad_up) {
