@@ -26,7 +26,7 @@ public class Auton_Actions extends LinearOpMode {
         slide1 = hardwareMap.get(DcMotorEx.class, "par0");
         slide2 = hardwareMap.get(DcMotorEx.class, "par1");
         claw = hardwareMap.get(Servo.class, "claw");
-        elbow = hardwareMap.get(Servo.class, "elbow");
+        elbow = hardwareMap.get(Servo.class, "wrist");
 
         waitForStart();
 
