@@ -9,6 +9,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.acmerobotics.roadrunner.Trajectory;
@@ -145,8 +146,10 @@ public class Auton_Actions extends LinearOpMode {
         return new Action() {
             @Override
             public boolean run(@NotNull TelemetryPacket telemetryPacket) {
+                Pose2d initialPose = null;
                 TrajectoryActionBuilder tab3 = drive.actionBuilder(initialPose).strafeTo(new Vector2d(46, 30));
 
+                return false;
             }
         };
     }
