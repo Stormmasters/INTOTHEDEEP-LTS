@@ -20,7 +20,6 @@ import com.acmerobotics.roadrunner.Action;
 
 @Autonomous
 
-public class Auton_Actions extends OpMode {
 public class Auton_Actions extends LinearOpMode {
 
 
@@ -62,9 +61,7 @@ public class Auton_Actions extends LinearOpMode {
 
             return false;  // Keep running the action
 
-                initialized = true;
-            }
-            return false;
+        }
 
         }
     }
