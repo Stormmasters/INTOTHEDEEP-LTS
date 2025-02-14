@@ -150,14 +150,16 @@ public class Auton_Actions extends LinearOpMode {
             public boolean run(@NotNull TelemetryPacket telemetryPacket) {
                 if (!initialized) {
                     TrajectoryActionBuilder tab3 = drive.actionBuilder(drive.pose)
-                            .strafeTo(new Vector2d(46, 30));
+                            .strafeTo(new Vector2d(46, 30))
+                            .waitSeconds(0.5); // Add a short wait to ensure completion
                     Actions.runBlocking(tab3.build());
                     initialized = true;
                 }
-                return false; // Ends after one execution
+                return false;
             }
         };
     }
+
 
     public void runAllActions() {
         Actions.runBlocking(new SequentialAction(
