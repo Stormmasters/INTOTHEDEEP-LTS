@@ -5,7 +5,6 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 
 public class Auton_Actions {
     public DcMotorEx slide1, slide2;
@@ -36,7 +35,6 @@ public class Auton_Actions {
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             if (!initialized) {
-                claw.setPosition(0.0);  // Fixed integer to double
                 initialized = true;
             }
             return false;
@@ -49,7 +47,6 @@ public class Auton_Actions {
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             if (!initialized) {
-                claw.setPosition(0.5);  // Already correct
                 initialized = true;
             }
             return false;
