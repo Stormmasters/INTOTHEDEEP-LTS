@@ -5,13 +5,17 @@ import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.ftc.Actions;
-import com.acmerobotics.roadrunner.SleepAction;
-
+import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.acmerobotics.roadrunner.Trajectory;
+import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
+import com.acmerobotics.roadrunner.Vector2d;
+import org.jetbrains.annotations.NotNull;
+
 
 @Autonomous
 public class Auton_Actions extends LinearOpMode {
@@ -20,8 +24,14 @@ public class Auton_Actions extends LinearOpMode {
     private Servo claw;
     private CRServo wrist;
     private long startTime;
-    private static final long SPIN_UP_TIME = 2000;
-    private static final long SLIDES_DOWN_TIME = 1500;
+    private static final long SPIN_UP_TIME = 3000;
+    private static final long SLIDES_DOWN_TIME = 3000;
+    private static final long ELBOW_EXTEND_TIME = 500;
+    private static final long ELBOW_RETRACT_TIME = 500;
+
+    private MecanumDrive drive; // Declare drive as a class member
+    private Trajectory trajectory; // Declare trajectory as a class member
+
 
     @Override
     public void runOpMode() {
@@ -30,7 +40,13 @@ public class Auton_Actions extends LinearOpMode {
         claw = hardwareMap.get(Servo.class, "claw");
         wrist = hardwareMap.get(CRServo.class, "wrist");
 
-        wrist.setDirection(CRServo.Direction.FORWARD); // Or REVERSE as needed
+        Pose2d initialPose = new Pose2d(-1.37, 1.58, Math.toRadians(-144.9));
+        drive = new MecanumDrive(hardwareMap, initialPose); // Initialize drive
+
+        wrist.setDirection(CRServo.Direction.FORWARD);
+
+        // Build trajectory *before* waitForStart
+
 
         waitForStart();
 
@@ -43,14 +59,12 @@ public class Auton_Actions extends LinearOpMode {
         private boolean initialized = false;
 
         @Override
-        public boolean run(TelemetryPacket telemetryPacket) {
-            if (telemetryPacket != null) {
-                if (!initialized) {
-                    slide1.setPower(0.8);
-                    slide2.setPower(0.8);
-                    startTime = System.currentTimeMillis();
-                    initialized = true;
-                }
+        public boolean run(@NotNull TelemetryPacket telemetryPacket) {
+            if (!initialized) {
+                slide1.setPower(0.8);
+                slide2.setPower(0.8);
+                startTime = System.currentTimeMillis();
+                initialized = true;
             }
             return (System.currentTimeMillis() - startTime >= SPIN_UP_TIME);
         }
@@ -60,46 +74,50 @@ public class Auton_Actions extends LinearOpMode {
         private boolean initialized = false;
 
         @Override
-        public boolean run(TelemetryPacket telemetryPacket) {
-            if (telemetryPacket != null) {
-                if (!initialized) {
-                    slide1.setPower(-0.8);
-                    slide2.setPower(-0.8);
-                    startTime = System.currentTimeMillis();
-                    initialized = true;
-                }
+        public boolean run(@NotNull TelemetryPacket telemetryPacket) {
+            if (!initialized) {
+                slide1.setPower(-0.8);
+                slide2.setPower(-0.8);
+                startTime = System.currentTimeMillis();
+                initialized = true;
             }
             return (System.currentTimeMillis() - startTime >= SLIDES_DOWN_TIME);
         }
     }
 
     public class ExtendElbow implements Action {
+        private boolean initialized = false;
+
         @Override
-        public boolean run(TelemetryPacket telemetryPacket) {
-            if (telemetryPacket != null) {
+        public boolean run(@NotNull TelemetryPacket telemetryPacket) {
+            if (!initialized) {
                 wrist.setPower(1.0);
+                startTime = System.currentTimeMillis();
+                initialized = true;
             }
-            return false;
+            return (System.currentTimeMillis() - startTime >= ELBOW_EXTEND_TIME);
         }
     }
 
     public class RetractElbow implements Action {
+        private boolean initialized = false;
+
         @Override
-        public boolean run(TelemetryPacket telemetryPacket) {
-            if (telemetryPacket != null) {
+        public boolean run(@NotNull TelemetryPacket telemetryPacket) {
+            if (!initialized) {
                 wrist.setPower(-1.0);
+                startTime = System.currentTimeMillis();
+                initialized = true;
             }
-            return false;
+            return (System.currentTimeMillis() - startTime >= ELBOW_RETRACT_TIME);
         }
     }
 
     public class OpenClaw implements Action {
         @Override
-        public boolean run(TelemetryPacket telemetryPacket) {
-            if (telemetryPacket != null) {
-                claw.setPosition(0.5);
-            }
-            return false;
+        public boolean run(@NotNull TelemetryPacket telemetryPacket) {
+            claw.setPosition(0.5);
+            return true; // Return true as this action is instantaneous
         }
     }
 
@@ -123,15 +141,24 @@ public class Auton_Actions extends LinearOpMode {
         return new OpenClaw();
     }
 
+    public Action strafeToLineHeading() {
+        return new Action() {
+            @Override
+            public boolean run(@NotNull TelemetryPacket telemetryPacket) {
+                TrajectoryActionBuilder tab3 = drive.actionBuilder(initialPose).strafeTo(new Vector2d(46, 30));
+
+            }
+        };
+    }
+
     public void runAllActions() {
         Actions.runBlocking(new SequentialAction(
                 new ParallelAction(
                         moveSlidesUp()
                 ),
+                strafeToLineHeading(),
                 extendElbow(),
-                new SleepAction(500),
                 openClaw(),
-                new SleepAction(500),
                 retractElbow(),
                 moveSlidesDown()
         ));
