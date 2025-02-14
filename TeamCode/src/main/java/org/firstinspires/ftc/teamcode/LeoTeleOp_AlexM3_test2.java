@@ -9,8 +9,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
-public class LeoTeleOp_LeonardoM3_test3 extends OpMode {
-    double LX, LY, RX, sensitivity = 0.5, wristPosition = 0;
+public class LeoTeleOp_AlexM3_test2 extends OpMode {
+    double LX, LY, RX, sensitivity = 0.5;
     DcMotor BL, FL, FR, BR, S1, S2;
     Servo Intake, HangArm;
     CRServo Arm, Wrist;
@@ -79,22 +79,24 @@ public class LeoTeleOp_LeonardoM3_test3 extends OpMode {
         }
 
         // Intake controls
-        if (gamepad2.left_bumper) {
+        if (gamepad2.left_bumper ) {
             Intake.setPosition(Intake.getPosition() - 0.005);
-        } else if (gamepad2.right_bumper) {
+        } else if (gamepad2.right_bumper && Intake.getPosition() < 0.35) {
             Intake.setPosition(Intake.getPosition() + 0.005);
         }
 
-        // Wrist controls
-        while (gamepad2.dpad_left) {
-            wristPosition += 0.005;
-            break;
+
+
+        if (gamepad2.dpad_left) {
+            Wrist.setPower(0.5); // Move wrist left
+        } else if (gamepad2.dpad_right) {
+            Wrist.setPower(-0.5); // Move wrist right
+        }else {
+            Wrist.setPower(0);
         }
-        while (gamepad2.dpad_right){
-            wristPosition -= 0.005;
-            break;
-        }
-        Wrist.setPower(wristPosition);
+
+
+
 
         // Hang arm controls
         if (gamepad2.y) {
@@ -106,7 +108,7 @@ public class LeoTeleOp_LeonardoM3_test3 extends OpMode {
         }
 
         // Telemetry for debugging
-        telemetry.addData("Wrist Position", wristPosition);
+        telemetry.addData("Wrist Power", Wrist.getPower());
         telemetry.addData("Intake Position", Intake.getPosition());
         telemetry.addData("Slides Position", S1.getCurrentPosition());
         telemetry.update();
