@@ -4,20 +4,19 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.ParallelAction;
-import com.acmerobotics.roadrunner.ftc.Actions;
 import com.acmerobotics.roadrunner.Pose2d;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.acmerobotics.roadrunner.Trajectory;
-import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import org.jetbrains.annotations.NotNull;
+import com.acmerobotics.roadrunner.Trajectory;
+import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Servo;
+import org.jetbrains.annotations.NotNull;
 
-
-@Autonomous
+@Autonomous(name = "Auton_Actions")
 public class Auton_Actions extends LinearOpMode {
 
     private DcMotorEx slide1, slide2;
@@ -29,9 +28,8 @@ public class Auton_Actions extends LinearOpMode {
     private static final long ELBOW_EXTEND_TIME = 500;
     private static final long ELBOW_RETRACT_TIME = 500;
 
-    private MecanumDrive drive; // Declare drive as a class member
-    private Trajectory trajectory; // Declare trajectory as a class member
-
+    private MecanumDrive drive;
+    private Pose2d initialPose;
 
     @Override
     public void runOpMode() {
@@ -40,13 +38,10 @@ public class Auton_Actions extends LinearOpMode {
         claw = hardwareMap.get(Servo.class, "claw");
         wrist = hardwareMap.get(CRServo.class, "wrist");
 
-        Pose2d initialPose = new Pose2d(-1.37, 1.58, Math.toRadians(-144.9));
-        drive = new MecanumDrive(hardwareMap, initialPose); // Initialize drive
+        initialPose = new Pose2d(-1.37, 1.58, Math.toRadians(-144.9));
+        drive = new MecanumDrive(hardwareMap, initialPose);
 
         wrist.setDirection(CRServo.Direction.FORWARD);
-
-        // Build trajectory *before* waitForStart
-
 
         waitForStart();
 
@@ -117,7 +112,7 @@ public class Auton_Actions extends LinearOpMode {
         @Override
         public boolean run(@NotNull TelemetryPacket telemetryPacket) {
             claw.setPosition(0.5);
-            return true; // Return true as this action is instantaneous
+            return true;
         }
     }
 
@@ -143,24 +138,35 @@ public class Auton_Actions extends LinearOpMode {
 
     public Action strafeToLineHeading() {
         return new Action() {
+            private Trajectory trajectory;
+
             @Override
             public boolean run(@NotNull TelemetryPacket telemetryPacket) {
-                TrajectoryActionBuilder tab3 = drive.actionBuilder(initialPose).strafeTo(new Vector2d(46, 30));
+                if (trajectory == null) {
 
+                    TrajectoryActionBuilder tab1 = drive.actionBuilder(initialPose).strafeTo(new Vector2d(-1.37, 1.58));
+                    Action trajectoryActionCloseOut = tab1.endTrajectory().fresh()
+                            .strafeTo(new Vector2d(-1.37, 1.58))
+                            .build();
+                }
+
+
+
+                return 1+1;
             }
         };
     }
 
     public void runAllActions() {
-        Actions.runBlocking(new SequentialAction(
-                new ParallelAction(
-                        moveSlidesUp()
-                ),
-                strafeToLineHeading(),
+        SequentialAction sequence = new SequentialAction(
+                new ParallelAction(moveSlidesUp()),
+                TrajectoryActionBuilder(),
                 extendElbow(),
                 openClaw(),
                 retractElbow(),
                 moveSlidesDown()
-        ));
+        );
+
+
     }
 }
