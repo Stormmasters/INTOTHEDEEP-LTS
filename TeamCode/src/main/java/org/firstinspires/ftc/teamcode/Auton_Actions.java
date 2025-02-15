@@ -135,32 +135,21 @@ public class Auton_Actions extends LinearOpMode {
     public Action openClaw() {
         return new OpenClaw();
     }
-
-    public Action strafeToLineHeading() {
-        return new Action() {
-            private Trajectory trajectory;
-
-            @Override
-            public boolean run(@NotNull TelemetryPacket telemetryPacket) {
-                if (trajectory == null) {
-
-                    TrajectoryActionBuilder tab1 = drive.actionBuilder(initialPose).strafeTo(new Vector2d(-1.37, 1.58));
-                    Action trajectoryActionCloseOut = tab1.endTrajectory().fresh()
-                            .strafeTo(new Vector2d(-1.37, 1.58))
-                            .build();
-                }
-
-
-
-                return 1+1;
-            }
-        };
+    int visionOutputPosition = 1;
+    TrajectoryActionBuilder tab1 = drive.actionBuilder(initialPose).strafeTo(new Vector2d(-1.37, 1.58));
+    Action trajectoryActionCloseOut = tab1.endTrajectory().fresh()
+            .strafeTo(new Vector2d(-1.37, 1.58))
+            .build();
+    int position = visionOutputPosition;
+    int startPosition = visionOutputPosition;
+    Action trajectoryActionChosen;
+    if (startPosition == 1){
+        trajectoryActionChosen = tab1.build();
     }
-
     public void runAllActions() {
         SequentialAction sequence = new SequentialAction(
                 new ParallelAction(moveSlidesUp()),
-                TrajectoryActionBuilder(),
+                trajectoryActionChosen,
                 extendElbow(),
                 openClaw(),
                 retractElbow(),
