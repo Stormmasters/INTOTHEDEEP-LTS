@@ -143,13 +143,13 @@ public class Auton_Actions extends LinearOpMode {
         Action trajectoryActionChosen = (visionOutputPosition == 1) ? tab1.build() : trajectoryActionCloseOut;
 
         SequentialAction sequence = new SequentialAction(
-                new ParallelAction(moveSlidesUp()),
-                trajectoryActionChosen,
-                extendElbow(),
-                openClaw(),
-                retractElbow(),
-                moveSlidesDown(),
-                trajectoryActionCloseOut
+                new ParallelAction(moveSlidesUp()),  // Move slides up while driving
+                trajectoryActionChosen,              // Follow the trajectory
+                extendElbow(),                       // Extend the elbow
+                openClaw(),                          // Open the claw
+                retractElbow(),                      // Retract the elbow
+                moveSlidesDown(),                    // Move slides down
+                trajectoryActionCloseOut             // Return to original position
         );
 
         Actions.runBlocking(sequence);
