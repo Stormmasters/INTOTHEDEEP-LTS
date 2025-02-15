@@ -7,8 +7,8 @@ import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import org.jetbrains.annotations.NotNull;
-import com.acmerobotics.roadrunner.Trajectory;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
+import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -16,7 +16,6 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.Servo;
-import org.jetbrains.annotations.NotNull;
 
 @Autonomous(name = "Auton_Actions")
 public class Auton_Actions extends LinearOpMode {
@@ -142,24 +141,19 @@ public class Auton_Actions extends LinearOpMode {
     Action trajectoryActionCloseOut = tab1.endTrajectory().fresh()
             .strafeTo(new Vector2d(-1.37, 1.58))
             .build();
-    int position = visionOutputPosition;
-    int startPosition = visionOutputPosition;
-    Action trajectoryActionChosen;
-
-    if (startPosition == 1){
-        trajectoryActionChosen = tab1.build();
-    }
     public void runAllActions() {
+        Action trajectoryActionChosen = (visionOutputPosition == 1) ? tab1.build() : trajectoryActionCloseOut;
+
         SequentialAction sequence = new SequentialAction(
-                new ParallelAction(moveSlidesUp()),
-                trajectoryActionChosen,
-                extendElbow(),
-                openClaw(),
-                retractElbow(),
-                moveSlidesDown(),
-                trajectoryActionCloseOut
+                new ParallelAction(moveSlidesUp()),  // Move slides up while driving
+                trajectoryActionChosen,              // Follow the trajectory
+                extendElbow(),                       // Extend the elbow
+                openClaw(),                          // Open the claw
+                retractElbow(),                      // Retract the elbow
+                moveSlidesDown(),                    // Move slides down
+                trajectoryActionCloseOut             // Return to original position
         );
 
-
+        Actions.runBlocking(sequence);
     }
 }
