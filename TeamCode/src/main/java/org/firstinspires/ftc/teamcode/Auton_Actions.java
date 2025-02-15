@@ -11,25 +11,27 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.acmerobotics.roadrunner.Trajectory;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import org.jetbrains.annotations.NotNull;
 
-@Autonomous(name = "Auton_Actions")
+
+@Autonomous
 public class Auton_Actions extends LinearOpMode {
 
     private DcMotorEx slide1, slide2;
     private Servo claw;
     private CRServo wrist;
     private long startTime;
-
     private static final long SPIN_UP_TIME = 3000;
     private static final long SLIDES_DOWN_TIME = 3000;
     private static final long ELBOW_EXTEND_TIME = 500;
     private static final long ELBOW_RETRACT_TIME = 500;
 
-    private MecanumDrive drive;
-    private Pose2d initialPose;
+    private MecanumDrive drive; // Declare drive as a class member
+    private Trajectory trajectory; // Declare trajectory as a class member
+
 
     @Override
     public void runOpMode() {
@@ -38,10 +40,13 @@ public class Auton_Actions extends LinearOpMode {
         claw = hardwareMap.get(Servo.class, "claw");
         wrist = hardwareMap.get(CRServo.class, "wrist");
 
-        initialPose = new Pose2d(-1.37, 1.58, Math.toRadians(-144.9));
-        drive = new MecanumDrive(hardwareMap, initialPose);
+        Pose2d initialPose = new Pose2d(-1.37, 1.58, Math.toRadians(-144.9));
+        drive = new MecanumDrive(hardwareMap, initialPose); // Initialize drive
 
         wrist.setDirection(CRServo.Direction.FORWARD);
+
+        // Build trajectory *before* waitForStart
+
 
         waitForStart();
 
@@ -112,7 +117,7 @@ public class Auton_Actions extends LinearOpMode {
         @Override
         public boolean run(@NotNull TelemetryPacket telemetryPacket) {
             claw.setPosition(0.5);
-            return true;
+            return true; // Return true as this action is instantaneous
         }
     }
 
@@ -138,14 +143,10 @@ public class Auton_Actions extends LinearOpMode {
 
     public Action strafeToLineHeading() {
         return new Action() {
-            private TrajectoryActionBuilder tab3;
-
             @Override
             public boolean run(@NotNull TelemetryPacket telemetryPacket) {
-                if (tab3 == null) {
-                    tab3 = drive.actionBuilder(initialPose).strafeTo(new Vector2d(46, 30));
-                }
-                return Actions.run(tab3);
+                TrajectoryActionBuilder tab3 = drive.actionBuilder(initialPose).strafeTo(new Vector2d(46, 30));
+
             }
         };
     }
