@@ -9,11 +9,9 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.acmerobotics.roadrunner.Trajectory;
-import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import org.jetbrains.annotations.NotNull;
 
@@ -144,22 +142,13 @@ public class Auton_Actions extends LinearOpMode {
 
     public Action strafeToLineHeading() {
         return new Action() {
-            private boolean initialized = false;
-
             @Override
             public boolean run(@NotNull TelemetryPacket telemetryPacket) {
-                if (!initialized) {
-                    TrajectoryActionBuilder tab3 = drive.actionBuilder(drive.pose)
-                            .strafeTo(new Vector2d(46, 30))
-                            .waitSeconds(0.5); // Add a short wait to ensure completion
-                    Actions.runBlocking(tab3.build());
-                    initialized = true;
-                }
-                return false;
+                drive.followTrajectory(trajectory);
+                return!drive.isBusy(); // Important: Action completes when trajectory is done
             }
         };
     }
-
 
     public void runAllActions() {
         Actions.runBlocking(new SequentialAction(
