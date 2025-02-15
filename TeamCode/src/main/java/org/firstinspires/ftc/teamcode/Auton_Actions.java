@@ -16,6 +16,26 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.jetbrains.annotations.NotNull;
 
+
+
+import androidx.annotation.NonNull;
+
+
+import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.Vector2d;
+import com.acmerobotics.roadrunner.ftc.Actions;
+
+
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import org.firstinspires.ftc.teamcode.MecanumDrive;
 @Autonomous(name = "Auton_Actions")
 public class Auton_Actions extends LinearOpMode {
 
@@ -140,11 +160,12 @@ public class Auton_Actions extends LinearOpMode {
     Action trajectoryActionCloseOut = tab1.endTrajectory().fresh()
             .strafeTo(new Vector2d(-1.37, 1.58))
             .build();
+
     int position = visionOutputPosition;
-    int startPosition = visionOutputPosition;
+
     Action trajectoryActionChosen;
 
-    if (startPosition == 1){
+    if(startPosition == 1){
         trajectoryActionChosen = tab1.build();
     }
     public void runAllActions() {
