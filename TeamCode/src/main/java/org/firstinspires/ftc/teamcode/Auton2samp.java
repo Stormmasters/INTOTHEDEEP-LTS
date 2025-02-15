@@ -41,8 +41,8 @@ public class Auton2samp extends LinearOpMode {
         waitForStart();
 
         // Perform movements
-        moveForward(0.1545, 2900); // Move forward for 2900ms
-        turnLeft(0.285, 1300); // Turn left for 1300ms
+        moveForward(1,1000); // Move forward for 2900ms
+        turnRight(1, 1300); // Turn left for 1300ms
         moveForward(0.1545, 1000); // Move forward for 1000ms
         turnLeft(0.285, 500); // Turn left for 500ms
         slideUp(0.555, 1300); // Slide up for 1300ms
