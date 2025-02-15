@@ -143,6 +143,7 @@ public class Auton_Actions extends LinearOpMode {
     int position = visionOutputPosition;
     int startPosition = visionOutputPosition;
     Action trajectoryActionChosen;
+
     if (startPosition == 1){
         trajectoryActionChosen = tab1.build();
     }
@@ -153,7 +154,8 @@ public class Auton_Actions extends LinearOpMode {
                 extendElbow(),
                 openClaw(),
                 retractElbow(),
-                moveSlidesDown()
+                moveSlidesDown(),
+                trajectoryActionCloseOut
         );
 
 
