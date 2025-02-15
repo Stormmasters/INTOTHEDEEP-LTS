@@ -37,30 +37,37 @@ public class AutoM4Specimen extends LinearOpMode {
 
         waitForStart();
 
-//        if
-        leftBack.setPower(0.1545);
-        rightBack.setPower(0.1545);
-        leftFront.setPower(0.1545);
-        rightFront.setPower(0.1545);
-        leftSlide.setPower(0.555);
-        rightSlide.setPower(0.555);
+        leftBack.setPower(0.17);
+        rightBack.setPower(0.17);
+        leftFront.setPower(0.17);
+        rightFront.setPower(0.17);
+        leftSlide.setPower(0.9);
+        rightSlide.setPower(0.9);
         shoulder.setPower(-0.35);
         wrist.setPower(0.05);
-        claw.setPosition(0.15);
-        sleep(2900);
+        claw.setPosition(0.1);
+        sleep(3000);
 
 
-        claw.setPosition(0.15);
-        leftSlide.setPower(-0.45);
-        rightSlide.setPower(-0.45);
+        claw.setPosition(0.1);
+        leftSlide.setPower(-0.6);
+        rightSlide.setPower(-0.6);
         shoulder.setPower(0.2);
         sleep(1300);
+
+        leftSlide.setPower(-0.5);
+        rightSlide.setPower(-0.5);
+        leftBack.setPower(0);
+        rightBack.setPower(0);
+        leftFront.setPower(0);
+        rightFront.setPower(0);
+        sleep(1000);
 
         leftBack.setPower(-0.35);
         rightBack.setPower(-0.35);
         leftFront.setPower(-0.35);
         rightFront.setPower(-0.35);
-        claw.setPosition(0.3);
+        claw.setPosition(0.18);
         shoulder.setPower(0);
         sleep(1000);
 
@@ -78,7 +85,7 @@ public class AutoM4Specimen extends LinearOpMode {
         rightFront.setPower(-0.285);
         leftSlide.setPower(-0.1);
         rightSlide.setPower(-0.1);
-        shoulder.setPower(0.25);
+        shoulder.setPower(0.1);
         wrist.setPower(0.05);
         sleep(5000);
 
