@@ -12,12 +12,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class LeoTeleOp_LeonardoM3 extends OpMode {
     double LX, LY, RX, sensitivity = 0.5, wristPosition = 0;
     DcMotor BL, FL, FR, BR, S1, S2;
-    Servo Intake, HangArm, Arm;  // ✅ Changed Arm to a standard Servo
-    CRServo Wrist;
-
-    // ✅ Define Arm Positions
-    private final double ARM_UP = 0.8;
-    private final double ARM_DOWN = 0.2;
+    Servo Intake, HangArm;
+    CRServo Arm, Wrist;
 
     @Override
     public void init() {
@@ -43,7 +39,7 @@ public class LeoTeleOp_LeonardoM3 extends OpMode {
         FL.setDirection(REVERSE);
 
         Intake = hardwareMap.get(Servo.class, "claw");
-        Arm = hardwareMap.get(Servo.class, "shoulder");  // ✅ Standard Servo
+        Arm = hardwareMap.get(CRServo.class, "shoulder");
         Wrist = hardwareMap.get(CRServo.class, "wrist");
         HangArm = hardwareMap.get(Servo.class, "hangArm");
     }
@@ -70,20 +66,22 @@ public class LeoTeleOp_LeonardoM3 extends OpMode {
         telemetry.addLine("Sensitivity: " + String.format("%.2f", sensitivity));
 
         // Slide controls
-        S1.setPower((gamepad2.left_trigger - gamepad2.right_trigger) * -1);
-        S2.setPower((gamepad2.left_trigger - gamepad2.right_trigger) * 1);
+        S1.setPower((gamepad2.left_trigger - gamepad2.right_trigger) * -0.8);
+        S2.setPower((gamepad2.left_trigger - gamepad2.right_trigger) * 0.8);
 
-        // ✅ Arm (Shoulder) Controls - Now Uses Positions
+        // Arm (shoulder) controls
         if (gamepad2.dpad_up) {
-            Arm.setPosition(ARM_UP);
+            Arm.setPower(-1);
         } else if (gamepad2.dpad_down) {
-            Arm.setPosition(ARM_DOWN);
+            Arm.setPower(1);
+        }else {
+            Arm.setPower(0);
         }
 
         // Intake controls
-        if (gamepad2.left_bumper) {
+        if (gamepad2.left_bumper && Intake.getPosition() > 0.15 ) {
             Intake.setPosition(Intake.getPosition() - 0.05);
-        } else if (gamepad2.right_bumper) {
+        } else if (gamepad2.right_bumper && Intake.getPosition()< 0.8) {
             Intake.setPosition(Intake.getPosition() + 0.05);
         }
 
@@ -92,7 +90,7 @@ public class LeoTeleOp_LeonardoM3 extends OpMode {
             wristPosition += 0.005;
             break;
         }
-        while (gamepad2.dpad_right){
+        while (gamepad2.dpad_right) {
             wristPosition -= 0.005;
             break;
         }
@@ -111,7 +109,6 @@ public class LeoTeleOp_LeonardoM3 extends OpMode {
         telemetry.addData("Wrist Position", wristPosition);
         telemetry.addData("Intake Position", Intake.getPosition());
         telemetry.addData("Slides Position", S1.getCurrentPosition());
-        telemetry.addData("Arm Position", Arm.getPosition());  // ✅ Show Arm Position
         telemetry.update();
     }
 }
