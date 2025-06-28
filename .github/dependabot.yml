@@ -9,3 +9,18 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+updates:
+  - package-ecosystem: "gradle" # See documentation for possible values
+    directory: "/TeamCode" # Location of package manifests
+    schedule:
+      interval: "weekly"
+updates:
+  - package-ecosystem: "gradle" # See documentation for possible values
+    directory: "/FtcRobotController" # Location of package manifests
+    schedule:
+      interval: "weekly"
+updates:
+  - package-ecosystem: "gradle" # See documentation for possible values
+    directory: "/MeepMeepTesting" # Location of package manifests
+    schedule:
+      interval: "weekly"
