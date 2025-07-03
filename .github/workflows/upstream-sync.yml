@@ -22,6 +22,7 @@ jobs:
       - name: Fetch and update upstream branch
         run: |
           git remote add upstream https://github.com/FIRST-Tech-Challenge/FtcRobotController.git 2>/dev/null || git remote set-url upstream https://github.com/FIRST-Tech-Challenge/FtcRobotController.git
+          git fetch upstream
           git checkout -B upstream upstream/master
 
       - name: Push upstream branch
