@@ -84,7 +84,6 @@ public class LeoTeleOp_LeonardoM3 extends OpMode {
         } else if (gamepad2.right_bumper && Intake.getPosition()< 0.8) {
             Intake.setPosition(Intake.getPosition() + 0.05);
         }
-
         // Wrist controls
         while (gamepad2.dpad_left) {
             wristPosition += 0.005;
@@ -95,7 +94,6 @@ public class LeoTeleOp_LeonardoM3 extends OpMode {
             break;
         }
         Wrist.setPower(wristPosition);
-
         // Hang arm controls
         if (gamepad2.y) {
             HangArm.setPosition(0.9);
@@ -104,7 +102,6 @@ public class LeoTeleOp_LeonardoM3 extends OpMode {
         } else {
             HangArm.setPosition(0.5);
         }
-
         // Telemetry for debugging
         telemetry.addData("Wrist Position", wristPosition);
         telemetry.addData("Intake Position", Intake.getPosition());
